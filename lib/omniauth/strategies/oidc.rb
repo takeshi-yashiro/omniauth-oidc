@@ -128,7 +128,7 @@ module OmniAuth
 
       def access_token
         @access_token ||= client.access_token!(
-          scope: options.scope,
+          scope: (options.send_scope_to_token_endpoint ? options.scope : nil),
           client_auth_method: options.client_auth_method
         ).tap do |access_token|
           decode_id_token(access_token.id_token).verify!(
