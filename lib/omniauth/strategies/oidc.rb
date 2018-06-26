@@ -78,7 +78,7 @@ module OmniAuth
         if error
           raise CallbackError.new(request.params['error'], request.params['error_description'] || request.params['error_reason'], request.params['error_uri'])
         elsif request.params['state'].to_s.empty? || request.params['state'] != stored_state
-          return Rack::Response.new(['401 Unauthorized'], 401).finish
+          fail!(:invalid_state) #return Rack::Response.new(['401 Unauthorized'], 401).finish
         else
           options.issuer = issuer if options.issuer.blank?
           discover! if options.discovery
@@ -93,6 +93,8 @@ module OmniAuth
         fail!(:timeout, e)
       rescue ::SocketError => e
         fail!(:failed_to_connect, e)
+      rescue OpenIDConnect::ResponseObject::IdToken::InvalidToken => e
+        fail!(:invalid_id_token, e)
       end
 
       def client
