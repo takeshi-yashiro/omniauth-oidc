@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest", "~> 5.0"
 
   spec.add_dependency "omniauth", "~> 1.3"
-  spec.add_dependency "openid_connect", "~> 0.12"
+  spec.add_dependency "openid_connect", "~> 1.0"
 end
